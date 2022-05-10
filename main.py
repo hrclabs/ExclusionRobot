@@ -2,19 +2,15 @@ import time
 
 from selenium import webdriver
 from selenium.webdriver import Keys
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
 def locate_element_by_xpath(xpath):
     try:
-        element = WebDriverWait(selenium_driver, 20).until(
+        element = WebDriverWait(selenium_driver, 60, 5).until(
             EC.presence_of_element_located((By.XPATH, xpath)))
         return element
     except:
@@ -23,7 +19,7 @@ def locate_element_by_xpath(xpath):
 
 def locate_element_by_id(id):
     try:
-        element = WebDriverWait(selenium_driver, 20).until(
+        element = WebDriverWait(selenium_driver, 60, 5).until(
             EC.presence_of_element_located((By.ID, id)))
         return element
     except:
@@ -31,10 +27,16 @@ def locate_element_by_id(id):
 
 
 if __name__ == '__main__':
-
     print('Open Chrome browser...')
-    path = "C:\\Users\\varunakanthak\\Automation\\chrome_driver\\chromedriver"
-    selenium_driver = webdriver.Chrome(path)
+    path = "C:\\Users\\varunakanthak\\Automation\\drivers\\chromedriver"
+
+    # Running in Headless mode
+    options = Options()
+    options.headless = True
+    print('Configuring Headless mode...')
+
+    # Open and maximize the browser
+    selenium_driver = webdriver.Chrome(path, options=options)
     selenium_driver.maximize_window()
 
     # Go to login page
@@ -72,6 +74,7 @@ if __name__ == '__main__':
     # Switch to the second window
     selenium_driver.switch_to.window(selenium_driver.window_handles[1])
 
+    print('Clicking on Claim-Center...')
     # Click on Claim-Center
     claim_center = locate_element_by_id("mnuClaimsCenter")
     claim_center.click()
@@ -109,4 +112,4 @@ if __name__ == '__main__':
     time.sleep(1)
     selenium_driver.quit()
 
-    print('Done')
+    print('Done & Have a Nice Day !')
